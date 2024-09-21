@@ -1,0 +1,25 @@
+
+
+services:
+  postgres:
+    image: postgres:latest # Используем официальный образ PostgreSQL
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: myuser      # Имя создаваемого пользователя
+      POSTGRES_PASSWORD: root123 # Пароль для пользователя
+      POSTGRES_DB: mydatabase    # Имя создаваемой базы данных
+    ports:
+      - "5432:5432"  # Пробрасываем порт 5432 на хост для доступа к базе данных
+    volumes:
+      - ./data:/var/lib/postgresql/data  # Монтируем папку для хранения данных
+    networks:
+      - postgres_network  # Создаем сеть для контейнера
+
+networks: 
+  postgres_network: #имя сети
+    driver: bridge # это тип сети который Docker использует по умолчанию для 
+    #создания виртуальной сети контейнеров
+    #bridge создает изолированную сеть, в пределах которой контейнеры могут общаться друг с другом
+    #но по умолчанию не имеют прямого доступа к внешней сети 
+    #(то есть к вашей локальной сети или Интернету), 
+    #кроме случаев, когда вы пробрасываете порты.
